@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const { body, validationResult } = require('express-validator');
 const moment = require('moment');
 
+const log4js = require('../log4js.config.js');
+const logger = log4js.getLogger();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -61,8 +64,6 @@ app.post('/api/appointment', [
     }),
     body('studentId').notEmpty()
 ], (req, res) => {
-    console.log('Received POST request to /api/appointment');
-    console.log('Request body:', req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
